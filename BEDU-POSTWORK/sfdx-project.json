@@ -5,7 +5,7 @@
       "default": true
     }
   ],
-  "name": "Salesforce Developer Bedu",
+  "name": "BEDU-POSTWORK",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "54.0"
