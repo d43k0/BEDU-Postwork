@@ -11,11 +11,7 @@ export default class CreateQuoteLineItem extends LightningElement {
 
     @wire(getInventary, {prodCode: '$searchKey'})
     inventaries;
-    // Llamandolo con wire
-    // @wire(NewQuoteLineItem, {amount: '$amountValue', prodCode: '$searchKey'})
-    // values;
 
-    //Llamada con imperativo
     handleSave(){
       console.log(this.amountValue, this.searchKey, this.recordId);
        NewQuoteLineItem({amount: this.amountValue, prodCode: this.searchKey, quoteId: this.recordId})
@@ -33,7 +29,6 @@ export default class CreateQuoteLineItem extends LightningElement {
            });
           }
 
-  // Asignacion de los datos traidos de los input.
     handleChange(event) {
       const defaultValue = event.target.value
       this.searchKey = defaultValue;
@@ -42,14 +37,6 @@ export default class CreateQuoteLineItem extends LightningElement {
     handleAmount(event){
       const amount = event.target.value
       this.amountValue = amount;
-    }
-
-    handleClick(){
-      this.fireSuccessToast();
-    }
-
-    handleCancel() {
-        this.dispatchEvent(new CloseActionScreenEvent());
     }
 
     fireSuccessToast(){

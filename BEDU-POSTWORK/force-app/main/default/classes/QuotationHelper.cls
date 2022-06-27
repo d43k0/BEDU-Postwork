@@ -30,11 +30,15 @@ public with sharing class QuotationHelper implements QuotationSync {
     }
 
     public static Integer searchProductByCode(String prodCode){
-        // Queries Available product by matching product code.F
+        // Queries Available product by matching product code
+        try{
         Inventary__c inExistence = [SELECT Available_Products__c FROM Inventary__c WHERE (ProductCodeInv__c =:prodCode)LIMIT 1];
-
         // Ensures the returning value is Integer to avoid conversion rules errors.
         return (Integer)(inExistence.Available_Products__c);
+        }catch (QueryException err){
+            System.debug('A Query exception has occurred: ' + err.getMessage());
+            return 0;
+        }
     }
 
     public void UpdateReservation(String prodCode, Integer quantity){
@@ -44,16 +48,18 @@ public with sharing class QuotationHelper implements QuotationSync {
             // Adds the reserved amount to the existing quantity.
             newReservation.Reserved_Products__c += quantity;
             update newReservation;
+
         } catch (DmlException err) {
             System.debug('A DML exception has occurred: ' + err.getMessage());
+
         }
     }
-    
+    public static Boolean isOutOfStock = false;
     @InvocableMethod(label='StockEmpty')
     public static void StockEmptyAlert(){
         System.debug(productsInInventory());
         Datetime lastExecuted;
-        Boolean isOutOfStock = false;
+        
         for(Inventary__c ls:productsInInventory()){
             if(ls.Available_Products__c == 0){
                 isOutOfStock = True;
